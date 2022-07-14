@@ -8,38 +8,37 @@
 import UIKit
 
 class SearchViewController: UIViewController {
-  @IBOutlet weak var searchBar: UISearchBar!
-  @IBOutlet weak var tableView: UITableView!
-  
+  @IBOutlet var searchBar: UISearchBar!
+  @IBOutlet var tableView: UITableView!
+
   var searchResults = [SearchResult]()
   var hasSearched = false
   var isLoading = false
-  
+  var dataTask: URLSessionDataTask?
 
   override func viewDidLoad() {
     super.viewDidLoad()
     searchBar.becomeFirstResponder()
     tableView.contentInset = UIEdgeInsets(top: 51, left: 0, bottom: 0, right: 0)
-    
+
     var cellNib = UINib(nibName: TableView.CellIdentifiers.searchResultCell, bundle: nil)
     tableView.register(cellNib, forCellReuseIdentifier: TableView.CellIdentifiers.searchResultCell)
     cellNib = UINib(nibName: TableView.CellIdentifiers.nothingFoundCell, bundle: nil)
     tableView.register(cellNib, forCellReuseIdentifier: TableView.CellIdentifiers.nothingFoundCell)
     cellNib = UINib(nibName: TableView.CellIdentifiers.loadingCell, bundle: nil)
     tableView.register(cellNib, forCellReuseIdentifier: TableView.CellIdentifiers.loadingCell)
-
-
   }
-  
-  struct TableView {
-    struct CellIdentifiers {
+
+  enum TableView {
+    enum CellIdentifiers {
       static let searchResultCell = "SearchResultCell"
       static let nothingFoundCell = "NothingFoundCell"
       static let loadingCell = "LoadingCell"
     }
   }
-  
+
   // MARK: - Helper Methods
+
   func iTunesURL(searchText: String) -> URL {
     let encodedText = searchText.addingPercentEncoding(
       withAllowedCharacters: CharacterSet.urlQueryAllowed)!
@@ -49,17 +48,7 @@ class SearchViewController: UIViewController {
     let url = URL(string: urlString)
     return url!
   }
-  
-  func performStoreRequest(with url: URL) -> Data? {
-    do {
-      return try Data(contentsOf: url)
-    } catch {
-      print("Download Error: \(error.localizedDescription)")
-      showNetworkError()
-      return nil
-    }
-  }
-  
+
   func parse(data: Data) -> [SearchResult] {
     do {
       let decoder = JSONDecoder()
@@ -71,14 +60,14 @@ class SearchViewController: UIViewController {
       return []
     }
   }
-  
+
   func showNetworkError() {
     let alert = UIAlertController(
       title: "Whoops...",
       message: "There was an error accessing the iTunes Store." +
-      " Please try again.",
+        " Please try again.",
       preferredStyle: .alert)
-    
+
     let action = UIAlertAction(
       title: "OK", style: .default, handler: nil)
     alert.addAction(action)
@@ -87,43 +76,59 @@ class SearchViewController: UIViewController {
 }
 
 // MARK: - Search Bar Delegate
+
 extension SearchViewController: UISearchBarDelegate {
   func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
     if !searchBar.text!.isEmpty {
       searchBar.resignFirstResponder()
+      dataTask?.cancel()
       isLoading = true
       tableView.reloadData()
       hasSearched = true
       searchResults = []
-      
-      let queue = DispatchQueue.global()
-      let url = self.iTunesURL(searchText: searchBar.text!)
-      queue.async {
-        if let data = self.performStoreRequest(with: url) {
-          self.searchResults = self.parse(data: data)
-          self.searchResults.sort(by: <)
+
+      let url = iTunesURL(searchText: searchBar.text!)
+      let session = URLSession.shared
+      dataTask = session.dataTask(with: url) { data, response, error in
+        if let error = error as NSError?, error.code == -999 {
+          return
+        } else if let httpResponse = response as? HTTPURLResponse,
+                  httpResponse.statusCode == 200
+        {
+          if let data = data {
+            self.searchResults = self.parse(data: data)
+            self.searchResults.sort(by: <)
+            DispatchQueue.main.async {
+              self.isLoading = false
+              self.tableView.reloadData()
+            }
+            return
+          }
+        } else {
           DispatchQueue.main.async {
+            self.hasSearched = false
             self.isLoading = false
             self.tableView.reloadData()
+            self.showNetworkError()
           }
-          return
         }
       }
+      dataTask?.resume()
     }
   }
-  
+
   func position(for bar: UIBarPositioning) -> UIBarPosition {
     return .topAttached
   }
 }
 
-
 // MARK: - Table View Delegate
+
 extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
   func tableView(
     _ tableView: UITableView,
-    numberOfRowsInSection section: Int
-  ) -> Int {
+    numberOfRowsInSection section: Int) -> Int
+  {
     if isLoading {
       return 1
     } else if !hasSearched {
@@ -134,16 +139,16 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
       return searchResults.count
     }
   }
-  
+
   func tableView(
     _ tableView: UITableView,
-    cellForRowAt indexPath: IndexPath
-  ) -> UITableViewCell {
+    cellForRowAt indexPath: IndexPath) -> UITableViewCell
+  {
     if isLoading {
       let cell = tableView.dequeueReusableCell(
         withIdentifier: TableView.CellIdentifiers.loadingCell,
         for: indexPath)
-      
+
       let spinner = cell.viewWithTag(100) as! UIActivityIndicatorView
       spinner.startAnimating()
       return cell
@@ -171,15 +176,15 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
 
   func tableView(
     _ tableView: UITableView,
-    didSelectRowAt indexPath: IndexPath
-  ) {
+    didSelectRowAt indexPath: IndexPath)
+  {
     tableView.deselectRow(at: indexPath, animated: true)
   }
-  
+
   func tableView(
     _ tableView: UITableView,
-    willSelectRowAt indexPath: IndexPath
-  ) -> IndexPath? {
+    willSelectRowAt indexPath: IndexPath) -> IndexPath?
+  {
     if searchResults.count == 0 || isLoading {
       return nil
     } else {
@@ -187,6 +192,3 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     }
   }
 }
-
-
-
