@@ -17,6 +17,7 @@
 		94E03B2A287C50E900F68643 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 94E03B28287C50E900F68643 /* LaunchScreen.storyboard */; };
 		94F85ED2287D396F003E076F /* SearchResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94F85ED1287D396F003E076F /* SearchResultCell.swift */; };
 		94F85ED4287D3CB1003E076F /* NothingFoundCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 94F85ED3287D3CB1003E076F /* NothingFoundCell.xib */; };
+		94FF7D3B28800AAA00C737EE /* LoadingCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 94FF7D3A28800AAA00C737EE /* LoadingCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		94E03B2B287C50E900F68643 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		94F85ED1287D396F003E076F /* SearchResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultCell.swift; sourceTree = "<group>"; };
 		94F85ED3287D3CB1003E076F /* NothingFoundCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NothingFoundCell.xib; sourceTree = "<group>"; };
+		94FF7D3A28800AAA00C737EE /* LoadingCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoadingCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,6 +72,7 @@
 				94E03B1F287C50E700F68643 /* SceneDelegate.swift */,
 				94E03B21287C50E700F68643 /* SearchViewController.swift */,
 				9411F0A8287C6C1800B18CEF /* SearchResult.swift */,
+				94FF7D3A28800AAA00C737EE /* LoadingCell.xib */,
 				94E03B23287C50E700F68643 /* Main.storyboard */,
 				94E03B26287C50E900F68643 /* Assets.xcassets */,
 				94E03B28287C50E900F68643 /* LaunchScreen.storyboard */,
@@ -139,6 +142,7 @@
 			files = (
 				94E03B2A287C50E900F68643 /* LaunchScreen.storyboard in Resources */,
 				94E03B27287C50E900F68643 /* Assets.xcassets in Resources */,
+				94FF7D3B28800AAA00C737EE /* LoadingCell.xib in Resources */,
 				94830E74287D34CD00F68343 /* SearchResultCell.xib in Resources */,
 				94F85ED4287D3CB1003E076F /* NothingFoundCell.xib in Resources */,
 				94E03B25287C50E700F68643 /* Main.storyboard in Resources */,
