@@ -11,8 +11,8 @@ class SearchViewController: UIViewController {
   @IBOutlet var searchBar: UISearchBar!
   @IBOutlet var tableView: UITableView!
 
-  @IBOutlet weak var segmentedControl: UISegmentedControl!
-  
+  @IBOutlet var segmentedControl: UISegmentedControl!
+
   var searchResults = [SearchResult]()
   var hasSearched = false
   var isLoading = false
@@ -21,10 +21,11 @@ class SearchViewController: UIViewController {
   @IBAction func segmentChanged(_ sender: UISegmentedControl) {
     performSearch()
   }
+
   override func viewDidLoad() {
     super.viewDidLoad()
     searchBar.becomeFirstResponder()
-    tableView.contentInset = UIEdgeInsets(top: 91, left: 0, bottom: 0, right: 0)
+    tableView.contentInset = UIEdgeInsets(top: 191, left: 0, bottom: 0, right: 0)
 
     var cellNib = UINib(nibName: TableView.CellIdentifiers.searchResultCell, bundle: nil)
     tableView.register(cellNib, forCellReuseIdentifier: TableView.CellIdentifiers.searchResultCell)
@@ -55,12 +56,12 @@ class SearchViewController: UIViewController {
     let encodedText = searchText.addingPercentEncoding(
       withAllowedCharacters: CharacterSet.urlQueryAllowed)!
     let urlString = "https://itunes.apple.com/search?" +
-    "term=\(encodedText)&limit=200&entity=\(kind)"
-    
+      "term=\(encodedText)&limit=200&entity=\(kind)"
+
     let url = URL(string: urlString)
     return url!
   }
-  
+
   func parse(data: Data) -> [SearchResult] {
     do {
       let decoder = JSONDecoder()
@@ -85,32 +86,44 @@ class SearchViewController: UIViewController {
     alert.addAction(action)
     present(alert, animated: true, completion: nil)
   }
+
+  // MARK: - Navigation
+
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    if segue.identifier == "ShowDetail" {
+      let detailViewController = segue.destination as! DetailViewController
+      let indexPath = sender as! IndexPath
+      let searchResult = searchResults[indexPath.row]
+      detailViewController.searchResult = searchResult
+    }
+  }
 }
 
 // MARK: - Search Bar Delegate
+
 extension SearchViewController: UISearchBarDelegate {
   func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
     performSearch()
   }
-  
+
   func performSearch() {
     if !searchBar.text!.isEmpty {
       searchBar.resignFirstResponder()
-      
+
       dataTask?.cancel()
       isLoading = true
       tableView.reloadData()
-      
+
       hasSearched = true
       searchResults = []
-      
+
       let url = iTunesURL(
         searchText: searchBar.text!,
         category: segmentedControl.selectedSegmentIndex)
       let session = URLSession.shared
-      dataTask = session.dataTask(with: url) {data, response, error in
+      dataTask = session.dataTask(with: url) { data, response, error in
         if let error = error as NSError?, error.code == -999 {
-          return  // Search was cancelled
+          return // Search was cancelled
         } else if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 {
           if let data = data {
             self.searchResults = self.parse(data: data)
@@ -134,18 +147,19 @@ extension SearchViewController: UISearchBarDelegate {
       dataTask?.resume()
     }
   }
-  
+
   func position(for bar: UIBarPositioning) -> UIBarPosition {
     return .topAttached
   }
 }
 
 // MARK: - Table View Delegate
+
 extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
   func tableView(
     _ tableView: UITableView,
-    numberOfRowsInSection section: Int
-  ) -> Int {
+    numberOfRowsInSection section: Int) -> Int
+  {
     if isLoading {
       return 1
     } else if !hasSearched {
@@ -156,7 +170,6 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
       return searchResults.count
     }
   }
-
 
   func tableView(
     _ tableView: UITableView,
@@ -189,6 +202,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     didSelectRowAt indexPath: IndexPath)
   {
     tableView.deselectRow(at: indexPath, animated: true)
+    performSegue(withIdentifier: "ShowDetail", sender: indexPath)
   }
 
   func tableView(
