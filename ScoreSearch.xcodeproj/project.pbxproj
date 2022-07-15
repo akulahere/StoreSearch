@@ -10,6 +10,7 @@
 		9411F0A9287C6C1800B18CEF /* SearchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9411F0A8287C6C1800B18CEF /* SearchResult.swift */; };
 		94830E74287D34CD00F68343 /* SearchResultCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 94830E73287D34CD00F68343 /* SearchResultCell.xib */; };
 		948E81CB28804AF8007E3EA8 /* UIImageView+DownloadImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 948E81CA28804AF8007E3EA8 /* UIImageView+DownloadImage.swift */; };
+		948E81CD28815D49007E3EA8 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 948E81CC28815D49007E3EA8 /* DetailViewController.swift */; };
 		94E03B1E287C50E700F68643 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94E03B1D287C50E700F68643 /* AppDelegate.swift */; };
 		94E03B20287C50E700F68643 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94E03B1F287C50E700F68643 /* SceneDelegate.swift */; };
 		94E03B22287C50E700F68643 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94E03B21287C50E700F68643 /* SearchViewController.swift */; };
@@ -24,6 +25,7 @@
 		9411F0A8287C6C1800B18CEF /* SearchResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResult.swift; sourceTree = "<group>"; };
 		94830E73287D34CD00F68343 /* SearchResultCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchResultCell.xib; sourceTree = "<group>"; };
 		948E81CA28804AF8007E3EA8 /* UIImageView+DownloadImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+DownloadImage.swift"; sourceTree = "<group>"; };
+		948E81CC28815D49007E3EA8 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		94E03B1A287C50E700F68643 /* ScoreSearch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ScoreSearch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		94E03B1D287C50E700F68643 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		94E03B1F287C50E700F68643 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -50,7 +52,7 @@
 		94E03B11287C50E700F68643 = {
 			isa = PBXGroup;
 			children = (
-				94E03B1C287C50E700F68643 /* ScoreSearch */,
+				94E03B1C287C50E700F68643 /* StoreSearch */,
 				94E03B1B287C50E700F68643 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -63,7 +65,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		94E03B1C287C50E700F68643 /* ScoreSearch */ = {
+		94E03B1C287C50E700F68643 /* StoreSearch */ = {
 			isa = PBXGroup;
 			children = (
 				94830E73287D34CD00F68343 /* SearchResultCell.xib */,
@@ -77,9 +79,10 @@
 				94E03B26287C50E900F68643 /* Assets.xcassets */,
 				94E03B2B287C50E900F68643 /* Info.plist */,
 				94F85ED1287D396F003E076F /* SearchResultCell.swift */,
+				948E81CC28815D49007E3EA8 /* DetailViewController.swift */,
 				948E81CA28804AF8007E3EA8 /* UIImageView+DownloadImage.swift */,
 			);
-			path = ScoreSearch;
+			path = StoreSearch;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -161,6 +164,7 @@
 				9411F0A9287C6C1800B18CEF /* SearchResult.swift in Sources */,
 				94E03B20287C50E700F68643 /* SceneDelegate.swift in Sources */,
 				94F85ED2287D396F003E076F /* SearchResultCell.swift in Sources */,
+				948E81CD28815D49007E3EA8 /* DetailViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -301,7 +305,8 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = ST823QU25Q;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = ScoreSearch/Info.plist;
+				INFOPLIST_FILE = StoreSearch/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = StoreSearch;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = Main;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -312,7 +317,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.akulahere.ScoreSearch;
+				PRODUCT_BUNDLE_IDENTIFIER = com.akulahere.StoreSearch;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -329,7 +334,8 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = ST823QU25Q;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = ScoreSearch/Info.plist;
+				INFOPLIST_FILE = StoreSearch/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = StoreSearch;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = Main;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -340,7 +346,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.akulahere.ScoreSearch;
+				PRODUCT_BUNDLE_IDENTIFIER = com.akulahere.StoreSearch;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
